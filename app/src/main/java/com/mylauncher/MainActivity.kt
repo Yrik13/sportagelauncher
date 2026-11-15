@@ -18,8 +18,10 @@ class MainActivity : Activity() {
 
         val clock = findViewById<TextView>(R.id.clock)
         val dateText = findViewById<TextView>(R.id.dateText)
+        val speedValue = findViewById<TextView>(R.id.speedValue)
+        val appsScroll = findViewById<ScrollView>(R.id.appsScroll)
 
-        // Часы и дата обновляются раз в 5 секунд
+        // Часы и дата
         val timeFmt = SimpleDateFormat("HH:mm", Locale.getDefault())
         val dateFmt = SimpleDateFormat("EEEE, d MMMM", Locale("ru"))
         val tick = object : Runnable {
@@ -31,16 +33,13 @@ class MainActivity : Activity() {
         }
         tick.run()
 
-        // Скорость считается по GPS — настоящие цифры без всякого CAN.
-        // Пока GPS не пойман, показывается 0.
-        val speedValue = findViewById<TextView>(R.id.speedValue)
+        // GPS Скорость
         val gps = GpsSpeed(this) { speed ->
             runOnUiThread { speedValue.text = speed.toString() }
         }
         gps.start()
 
-        // Кнопка: показать/скрыть список приложений
-        val appsScroll = findViewById<ScrollView>(R.id.appsScroll)
+        // Кнопка переключения
         findViewById<Button>(R.id.toggleBtn).setOnClickListener {
             if (appsScroll.visibility == View.VISIBLE) {
                 appsScroll.visibility = View.GONE
@@ -53,7 +52,7 @@ class MainActivity : Activity() {
 
     private fun loadApps() {
         val grid = findViewById<GridLayout>(R.id.appGrid)
-        if (grid.childCount > 0) return // уже заполнено
+        if (grid.childCount > 0) return
 
         val pm = packageManager
         val intent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
@@ -93,4 +92,5 @@ class MainActivity : Activity() {
             }
     }
 }
+
 
