@@ -6,6 +6,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.content.Context
+import android.os.Bundle
 
 class GpsSpeed(
     private val context: Context,
@@ -28,7 +29,8 @@ class GpsSpeed(
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onStatusChanged(p: String?, s: Int, e: Bundle?) {}
-    override fun onProviderEnabled(p: String?) {}
-    override fun onProviderDisabled(p: String?) {}
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+    
+    override fun onProviderEnabled(provider: String?) {}
+    override fun onProviderDisabled(provider: String?) {}
 }
